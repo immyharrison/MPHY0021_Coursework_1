@@ -293,7 +293,7 @@ def cases_per_population_by_age(input_data):
                                                             sum_band = (band_cases_dic[count])
                                                             total_1 = total_1 + sum_band
                                                             total_1 = (total_1/total_pop_1)*100
-                                                         list_hosp_1.append(total_1)
+                                                            list_hosp_1.append(total_1)
             #make list 
             list_2 = (date,list_hosp_1)
             # make tuple 
