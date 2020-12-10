@@ -1,13 +1,20 @@
 from process_covid import match_age_bins ,check_json_strucutre, hospital_vs_confirmed ,covid_data, generate_data_plot_confirmed, load_covid_data, compute_running_average, simple_derivative, cases_per_population_by_age
 import pytest 
 
+def test_compute_running_average_window_even():
+    data = [1,2,3,4,5,6,7,8,9,10]
+    window = 5
+    actual = compute_running_average(data, window)
+    expected = [None, None, 3, 4, 5, 6, 7, 8, None,None]
+    assert actual == expected
+
 def test_compute_running_average_window_odd():
     data = [1,2,3 ,4]
     window = 2
     actual = compute_running_average(data, window)
     expected = [None, 2.0, 3.0, None]
     assert actual == expected 
-    
+
 def test_compute_running_average_2():
     data = [2, None, 4]
     window = 3
