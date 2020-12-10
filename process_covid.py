@@ -547,6 +547,14 @@ def compute_running_average(data, window):
     output = []
     data_no_none = []
     n = position_in_list
+    #check input are valid 
+    # check that data is none or number 
+    for value in data: 
+        if not value.isdigit() or value == None:
+            output = ('Error data input is not a digit or None')   
+    # check window is number 
+    if not window.isdigit():
+        output = ('Error window input is not a digit')
     # for the number getting averaged 
     for num in data: 
         # if first number of cannot average over window size
