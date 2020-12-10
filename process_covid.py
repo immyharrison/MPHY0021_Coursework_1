@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 # 2.1 load and chek json file 
 def load_covid_data(filepath):
 
-      list_files = os.listdir(filepath)
+    list_files = os.listdir(filepath)
     #check for all files in folder
     check_files_counter = 0
     for fname in list_files: 
