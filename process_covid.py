@@ -6,6 +6,9 @@ import os
 
 current_filepath = os.getcwd()
 
+# load matplotlib to plot graphs 
+import matplotlib.pyplot as plt
+
 # 2.1 load and chek json file 
 def load_covid_data(filepath):
 
@@ -397,24 +400,50 @@ def generate_data_plot_confirmed(input_data, sex, max_age, status):
     return graph_data, graph_date, colour, error_message 
 
 def create_confirmed_plot(input_data, sex=False, max_ages=[], status=..., save=...):
-    # FIXME check that only sex or age is specified.
-    fig = plt.figure(figsize=(10, 10))
+     # FIXME check that only sex or age is specified.
+    if sex == False and max_ages == False:  
+        print ('Error: need input for either sex or max_age, cannot input both at once')
+    fig = plt.figure(figsize=(10, 10)) 
     # FIXME change logic so this runs only when the sex plot is required
-    for sex in ['male', 'female']:
-        # FIXME need to change `changeme` so it uses generate_data_plot_confirmed
-        plt.plot('date', 'value', changeme)
+    if sex != True or sex != False : 
+      print('Error in input value for sex')
+    if sex == True and (max_ages == False or max_ages == ''):
+        for sex in ['male', 'female']:
+            # FIXME need to change `changeme` so it uses generate_data_plot_confirmed
+            (graph_data, graph_date, colour) = generate_data_plot_confirmed(input_data,sex,max_ages,status)
+            plt.plot( graph_date, graph_data, colour, label = (status + ' ' +  sex))
     # FIXME change logic so this runs only when the age plot is required
-    for age in max_ages:
+    elif max_ages != '' and sex == False or sex == '':
+        for age in max_ages:
+            str_age = str(age)
+            if str_age.isdigit():
         # FIXME need to change `changeme` so it uses generate_data_plot_confirmed
-        plt.plot('date', 'value', changeme)
+                (graph_data, graph_date, colour) = generate_data_plot_confirmed(input_data,sex,age,status)
+                plt.plot(graph_date, graph_data, colour, label = (status + ' younger than ' + str_age))
+            else: 
+               print ('Error: max_age input not digits')
     fig.autofmt_xdate()  # To show dates nicely
     # TODO add title with "Confirmed cases in ..."
+    region_name = (input_data['region']['name'])
+    plt.title('Confirmed cases in '+ region_name )
     # TODO Add x label to inform they are dates
+    plt.xlabel('date')
     # TODO Add y label to inform they are number of cases
+    plt.ylabel('# cases')
     # TODO Add legend
+    plt.legend(loc=2, ncol=1)
     # TODO Change logic to show or save it into a '{region_name}_evolution_cases_{type}.png'
     #      where type may be sex or age
-    plt.show()
+    if save == True: 
+        region_name = (covid_data['region']['name'])
+        if sex == True: 
+            types = 'sex'
+        else:
+            types = 'max_ages'
+
+        plt.savefig(region_name+'_evolution_cases_'+types+'.png', dpi=300, bbox_inches='tight')
+    else:
+        plt.show()
 
 def compute_running_average(data, window):
     raise NotImplementedError
