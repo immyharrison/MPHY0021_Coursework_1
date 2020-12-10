@@ -445,6 +445,7 @@ def create_confirmed_plot(input_data, sex=False, max_ages=[], status=..., save=.
     else:
         plt.show()
 
+# 2.5 the effect of the weather 
 def compute_running_average(data, window):
     no_in_input = len(data) -1
     position_in_list = 0 
@@ -483,7 +484,35 @@ def compute_running_average(data, window):
     return output
 
 def simple_derivative(data):
-    raise NotImplementedError
+     # results start with None as coont have derivative of first value 
+    results = []
+    position_in_list = 0
+    for i in data:
+        n = position_in_list  
+        if n == 0:
+            results.append(None)
+
+        elif n < len(data) and n> 0:
+            yesterday = data[n-1]
+            today = data[n]
+            print(yesterday,today)
+            #yesterday_today_list = data[n-1:n+1]
+            #full_str_yes_tod = ' '.join([str(elem) for eresults.append(None)lem in yesterday_today_list])
+            
+            # if none in string 
+            if yesterday == None or today == None:
+                results.append(None)
+
+            # if no none find difference 
+            else : 
+                num1 = (data[n-1])
+                num2 = (data[n])
+                diff = num2 - num1
+                results.append(diff)
+
+
+        position_in_list += 1
+    return results
 
 def count_high_rain_low_tests_days(input_data):
     raise NotImplementedError
