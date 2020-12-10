@@ -1,6 +1,11 @@
 from process_covid import match_age_bins ,check_json_strucutre, hospital_vs_confirmed ,covid_data, generate_data_plot_confirmed, load_covid_data, compute_running_average, simple_derivative, cases_per_population_by_age
 import pytest 
-
+def test_simple_derivative():
+    input_data = [None, 1, 2, None, 4]
+    actual = simple_derivative(input_data)
+    expected = [None, None, 1, None, None]
+    assert actual == expected
+    
 def test_match_age_bins_not_possible ():
     A = ['0-14', '15-29','30-']
     B = ['0-19','20-39','40-']
