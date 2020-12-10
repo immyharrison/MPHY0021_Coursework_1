@@ -615,7 +615,7 @@ def simple_derivative(data):
     return results
 
 def count_high_rain_low_tests_days(input_data):
-    find the rainfall for each day 
+    #find the rainfall for each day 
     # set empty variables 
     list_rain = []
     list_test = []
