@@ -1,6 +1,13 @@
 from process_covid import match_age_bins ,check_json_strucutre, hospital_vs_confirmed ,covid_data, generate_data_plot_confirmed, load_covid_data, compute_running_average, simple_derivative, cases_per_population_by_age
 import pytest 
 
+def test_match_age_bins ():
+    A = ['0-9','10-19','20-29','30-39','40-49','50-']
+    B = ['0-19', '20-39', '40-']
+    actual = match_age_bins(A,B)
+    expected = ({'0-9': 0, '10-19': 0, '20-29': 1, '30-39': 1, '40-49': 2, '50-': 2}, {'0-19': 0, '20-39': 1, '40-': 2}, ['0-19', '0-19', '20-39', '20-39', '40-', '40-'])
+    assert actual == expected 
+
 def test_compute_running_average_window_even():
     data = [1,2,3,4,5,6,7,8,9,10]
     window = 5
