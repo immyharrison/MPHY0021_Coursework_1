@@ -51,8 +51,7 @@ covid_data = load_covid_data(current_filepath
 
 # 2.2 evolution cases by age group and total pop 
 def match_age_bins(binning_dic_hosp,binning_dic_pop):
-    binning_dic_hosp = ['0-9','10-19','20-29','30-39','40-49','50-']
-    binning_dic_pop = ['0-19', '20-39', '40-']
+    # set/create variables to zzero and empty 
     count_hosp = 0
     count_pop = 0 
     hosp_age_bin_resort  = {}
@@ -60,6 +59,7 @@ def match_age_bins(binning_dic_hosp,binning_dic_pop):
     new_age_bins_resort = []
     len_binning_dic_pop  = len(binning_dic_pop)
     len_binning_dic_hosp = len(binning_dic_hosp)
+    # while still age bins present 
     while count_hosp < len_binning_dic_hosp and count_pop < len_binning_dic_pop:
             # upper limit for hospital age bin
             current_hosp_bin = (binning_dic_hosp[count_hosp]) 
@@ -87,7 +87,7 @@ def match_age_bins(binning_dic_hosp,binning_dic_pop):
             if limit_lower_pop != '':
                 limit_lower_pop = int(limit_lower_pop)
 
-           
+           # if hosp larger add index to dictionary and move to next  pop age bin 
             if limit_upper_hosp > limit_upper_pop and limit_lower_hosp >= limit_lower_pop:
                 position = min(count_hosp, count_pop)
                 if current_pop_bin not in pop_age_bin_resort:
@@ -97,11 +97,11 @@ def match_age_bins(binning_dic_hosp,binning_dic_pop):
                 if current_pop_bin not in new_age_bins_resort: 
                     new_age_bins_resort.append(current_hosp_bin)
                 count_pop += 1
-            
+            # if lower limit not fit in bin - error message 
             elif limit_upper_hosp > limit_upper_pop and limit_lower_hosp <= limit_lower_pop:
                 error_message = ('error: age bins cannot be resported')
-                break
-
+                break       
+            # pop bin larger index in dictionary and move to next hosp bin
             elif limit_upper_pop > limit_upper_hosp and limit_lower_hosp >= limit_lower_pop:
                 position = min(count_hosp, count_pop)
                 if current_hosp_bin not in hosp_age_bin_resort:
@@ -111,10 +111,11 @@ def match_age_bins(binning_dic_hosp,binning_dic_pop):
                 if (current_hosp_bin or current_pop_bin) not in new_age_bins_resort: 
                     new_age_bins_resort.append(current_pop_bin)
                 count_hosp += 1
-            
+             # if lower limit not fit in bin - error message 
             elif limit_upper_pop > limit_upper_hosp and limit_lower_hosp <= limit_lower_pop:
                 error_message = ('error: age bins cannot be resported')
                 break
+            # if limits same index and move to next bi nin hosp and pop
             elif limit_upper_hosp == limit_upper_pop:
                 position = min(count_hosp, count_pop)
                 if current_hosp_bin not in hosp_age_bin_resort:
@@ -125,8 +126,10 @@ def match_age_bins(binning_dic_hosp,binning_dic_pop):
                     new_age_bins_resort.append(current_pop_bin)
                 count_hosp += 1
                 count_pop += 1
+    # return error message if not fill dicoary
     if hosp_age_bin_resort == {} or pop_age_bin_resort == {} or new_age_bins_resort == []:
         return error_message
+    # reutrn edicronary and bins 
     else :
         return  hosp_age_bin_resort, pop_age_bin_resort, new_age_bins_resort
 
