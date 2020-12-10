@@ -267,6 +267,7 @@ def hospital_vs_confirmed(input_data):
     no_new_cases = [] 
     no_new_hosp = []
     len_age_bin = len(covid_data['metadata']['age_binning']['hospitalizations'])
+    # find data about confirded case s
     for data,data_dic in covid_data.items():
         for date,date_dic in data_dic.items(): 
             if date[0:4].isdigit() and date[5:6].isdigit() and date[8:10]:
@@ -283,7 +284,7 @@ def hospital_vs_confirmed(input_data):
                                                         no_new_cases = band_cases_dic
                                                     else: 
                                                         result = ('error: missing data')
-                                            
+                    # find data about hospitalised  
                         elif group == 'hospitalizations':
                             for status_cases_hosp,status_cases_hosp_dic in group_dic.items():
                                 if status_cases_hosp == 'hospitalized': 
@@ -293,10 +294,12 @@ def hospital_vs_confirmed(input_data):
                                             for band_cases_hosp,band_cases_hosp_dic in catgories_cases_hosp_dic.items():
                                                 if band_cases_hosp == 'all':
                                                     print(band_cases_hosp_dic)
+                                                
                                                     if band_cases_hosp_dic == None:
                                                         no_new_hosp = band_cases_hosp_dic
                                                     else: 
                                                         result = ('error: missing data')
+    # if not missing data find ration
     if no_new_cases != [] or no_new_hosp != []:
         ratio = no_new_cases/no_new_hosp
         list_ratio.append(ratio)
