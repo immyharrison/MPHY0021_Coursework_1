@@ -1,6 +1,12 @@
 from process_covid import match_age_bins ,check_json_strucutre, hospital_vs_confirmed ,covid_data, generate_data_plot_confirmed, load_covid_data, compute_running_average, simple_derivative, cases_per_population_by_age
 import pytest 
-
+def test_compute_running_average():
+    data = [0, 1, 5, 2, 2, 5]
+    window = 3 
+    actual = compute_running_average(data, window)
+    expected = [None, 2.0, 8/3, 3.0, 3.0, None]
+    assert actual == expected
+    
 def test_generate_data_plot_confirmed():
     input_data = covid_data
     sex = 4 
@@ -10,7 +16,7 @@ def test_generate_data_plot_confirmed():
     actual = generate_data_plot_confirmed(covid_data, sex, max_age, status)
     expected = ([ ], [ ], '', 'Error in input value for sex')
     assert actual == expected
-    
+
 def test_check_json_strucutre():
     input_data = {"metadata":{"age_binning": {"hospitalizations": ["0-24","25-49","50-74","75-"],}},},
     {"evolution":{"2020-03-16": {"hospitalizations": {
