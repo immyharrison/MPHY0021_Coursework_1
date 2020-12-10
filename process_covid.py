@@ -239,8 +239,53 @@ def cases_per_population_by_age(input_data):
     
     return results
 
+
+#2.3 new hosp and new cases 
 def hospital_vs_confirmed(input_data):
-    raise NotImplementedError
+    # create empty variables 
+    list_date = []
+    list_ratio = []
+    list_results = []
+    no_new_cases = [] 
+    no_new_hosp = []
+    len_age_bin = len(covid_data['metadata']['age_binning']['hospitalizations'])
+    for data,data_dic in covid_data.items():
+        for date,date_dic in data_dic.items(): 
+            if date[0:4].isdigit() and date[5:6].isdigit() and date[8:10]:
+                for group, group_dic in date_dic.items():
+                        if group == 'epidemiology':
+                            for status_cases,status_cases_dic in group_dic.items():
+                                if status_cases == 'confirmed': 
+                                    for catgories_cases,catgories_cases_dic in status_cases_dic.items():
+                                        if catgories_cases == 'new':
+                                            for band_cases,band_cases_dic in catgories_cases_dic.items():
+                                                if band_cases == 'all':
+                                                    print(band_cases_dic)
+                                                    if band_cases_dic == None:
+                                                        no_new_cases = band_cases_dic
+                                                    else: 
+                                                        result = ('error: missing data')
+                                            
+                        elif group == 'hospitalizations':
+                            for status_cases_hosp,status_cases_hosp_dic in group_dic.items():
+                                if status_cases_hosp == 'hospitalized': 
+                                    for catgories_cases_hosp,catgories_cases_hosp_dic in status_cases_hosp_dic.items():
+                                        if catgories_cases_hosp == 'new':
+                                       
+                                            for band_cases_hosp,band_cases_hosp_dic in catgories_cases_hosp_dic.items():
+                                                if band_cases_hosp == 'all':
+                                                    print(band_cases_hosp_dic)
+                                                    if band_cases_hosp_dic == None:
+                                                        no_new_hosp = band_cases_hosp_dic
+                                                    else: 
+                                                        result = ('error: missing data')
+    if no_new_cases != [] or no_new_hosp != []:
+        ratio = no_new_cases/no_new_hosp
+        list_ratio.append(ratio)
+        list_date.append(date)
+        list_results = list_date + list_ratio
+        result = tuple(list_results)
+    return (results)
 
 def generate_data_plot_confirmed(input_data, sex, max_age, status):
     """
