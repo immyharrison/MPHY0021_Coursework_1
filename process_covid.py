@@ -509,21 +509,23 @@ def compute_running_average(data, window):
 
 def simple_derivative(data):
      # results start with None as coont have derivative of first value 
+    # set /create variables 
     results = []
     position_in_list = 0
+    # for number being calculated 
     for i in data:
         n = position_in_list  
+        # if first number in list results is none
         if n == 0:
             results.append(None)
 
         elif n < len(data) and n> 0:
+            # find vlaue of today and yesterday
             yesterday = data[n-1]
             today = data[n]
-            print(yesterday,today)
-            #yesterday_today_list = data[n-1:n+1]
-            #full_str_yes_tod = ' '.join([str(elem) for eresults.append(None)lem in yesterday_today_list])
             
             # if none in string 
+            # if none of the inputs is none append none
             if yesterday == None or today == None:
                 results.append(None)
 
