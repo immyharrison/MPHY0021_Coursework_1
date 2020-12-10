@@ -152,6 +152,7 @@ def cases_per_population_by_age(input_data):
     sum_pop_1 = []
     total_pop_2 = 0
     sum_pop_2 = []
+    # sum bins that index to the same in ppulation 
     for key in pop_age_bin_resort:
         if(pop_age_bin_resort[key] == 0):
             pop = (covid_data['region']['population']['age'])
@@ -170,7 +171,7 @@ def cases_per_population_by_age(input_data):
             sum_pop_2.append(total_pop_2)
         count_pop = count_pop + 1
     sum_pop_0 = str(sum_pop_0)
- 
+    # creat/set variables to empty and zero 
     count = 0
     total_0 = 0
     list_hosp_0 = []
@@ -179,7 +180,7 @@ def cases_per_population_by_age(input_data):
     total_2 = 0 
     list_hosp_2 = []
     for key in hosp_age_bin_resort:
-       
+       # index hosp sum together
         if(hosp_age_bin_resort[key] == 0): 
             for data,data_dic in covid_data.items():
                 for date,date_dic in data_dic.items(): 
@@ -196,10 +197,13 @@ def cases_per_population_by_age(input_data):
                                                             total_0 = (total_0 + sum_band)
                                                             total_0 = (total_0/total_pop_0)*100
                                                             list_hosp_0.append(total_0)
-                                                            
+        # reutn list of data                                              
             list_1 = (date,list_hosp_0)
+            # make list tuple
             list_1 = (tuple(list_1))
+            # add age bins 
             results[key] = list_1
+         # index hosp sum together
         elif(hosp_age_bin_resort[key] == 1): 
             for data,data_dic in covid_data.items():
                 for date,date_dic in data_dic.items(): 
@@ -215,9 +219,12 @@ def cases_per_population_by_age(input_data):
                                                             sum_band = (band_cases_dic[count])
                                                             total_1 = total_1 + sum_band
                                                             total_1 = (total_1/total_pop_1)*100
-                                                            list_hosp_1.append(total_1)
+                                                         list_hosp_1.append(total_1)
+            #make list 
             list_2 = (date,list_hosp_1)
+            # make tuple 
             list_2 = (tuple(list_2))
+            # add age bin
             results[key] = list_2
         elif(hosp_age_bin_resort[key] == 2): 
             
@@ -236,10 +243,13 @@ def cases_per_population_by_age(input_data):
                                                             total_2 = total_2 + sum_band
                                                             total_2 = (total_2/total_pop_2)*100
                                                             list_hosp_2.append(total_2)
+            #make list of date and summed data
             list_3 = (date,list_hosp_2)
+            # make list tuple
             list_3 = (tuple(list_3))
+            # add age bin to list 
             results[key] = list_3
-           
+         # error message if not possible  
         else: 
             error_message = 'Error: cannot match age bins'
         count = count + 1 
