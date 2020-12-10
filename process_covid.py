@@ -446,7 +446,41 @@ def create_confirmed_plot(input_data, sex=False, max_ages=[], status=..., save=.
         plt.show()
 
 def compute_running_average(data, window):
-    raise NotImplementedError
+    no_in_input = len(data) -1
+    position_in_list = 0 
+    output = []
+    data_no_none = []
+    n = position_in_list
+    for num in data: 
+        if n == 0 or n == no_in_input or n <int(window/2) or n > no_in_input - int(window/2):
+            n += 1 
+            output.append(None)
+        else:
+            min = n-int(window/2)
+            max = n+int(window/2)
+            average_list = (data[min:max+1])
+            # set variable to count sum 
+            sum_num = 0
+            # count number of non zer  numbrs in list 
+            no_non_0_list = 0
+            # add numbers in list 
+            for t in average_list:
+                # no count number if zero 
+                if t == None :
+                    continue
+                else:
+                    sum_num = sum_num + t 
+                    no_non_0_list += 1
+            n += 1
+            print('n',n)
+            if no_non_0_list >0:    
+                average = sum_num/no_non_0_list
+                print('av',average)
+                output.append(average) 
+            
+              
+
+    return output
 
 def simple_derivative(data):
     raise NotImplementedError
