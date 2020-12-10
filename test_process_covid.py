@@ -1,6 +1,13 @@
 from process_covid import match_age_bins ,check_json_strucutre, hospital_vs_confirmed ,covid_data, generate_data_plot_confirmed, load_covid_data, compute_running_average, simple_derivative, cases_per_population_by_age
 import pytest 
 
+def test_match_age_bins_not_possible ():
+    A = ['0-14', '15-29','30-']
+    B = ['0-19','20-39','40-']
+    actual = match_age_bins(A,B)
+    expected = ('error: age bins cannot be resported')
+    assert actual == expected
+
 def test_match_age_bins ():
     A = ['0-9','10-19','20-29','30-39','40-49','50-']
     B = ['0-19', '20-39', '40-']
