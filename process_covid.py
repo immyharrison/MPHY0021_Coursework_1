@@ -127,6 +127,7 @@ def check_json_strucutre(str_input):
     else:
         output = ('Error: ', catagories, ' not found in the loaded data')
     return output
+covid_data = load_covid_data(current_filepath)
 
 # 2.2 evolution cases by age group and total pop 
 def match_age_bins(binning_dic_hosp,binning_dic_pop):
