@@ -34,6 +34,7 @@ def load_covid_data(filepath):
         return (check_output)
 
 def check_json_strucutre(str_input):
+    # categories that need to be check to see if present in loaded data 
     matches = ["start_data","end_date","region","population","hospitalized", "epidemiology", "weather"]
     catagories_check_counter = 0
     for catagories in matches: 
@@ -42,6 +43,7 @@ def check_json_strucutre(str_input):
                 #check if all catagories are present in file - print message is
     if catagories_check_counter == len(matches):
         output = 'correct structure'
+    # if not all categories are present print enttor message with that catagorie 
     else:
         output = ('Error: ', catagories, ' not found in the loaded data')
     return output
