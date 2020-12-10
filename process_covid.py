@@ -203,7 +203,7 @@ def match_age_bins(binning_dic_hosp,binning_dic_pop):
                     new_age_bins_resort.append(current_pop_bin)
                 count_hosp += 1
                 count_pop += 1
-    if hosp_age_bin_resort == {} or pop_age_bin_resort == {} or new_age_bins_resort == []:
+    if len(hosp_age_bin_resort) < len(binning_dic_hosp) or len(pop_age_bin_resort) < len(binning_dic_pop) or new_age_bins_resort == []:
         return error_message
     else :
         return  hosp_age_bin_resort, pop_age_bin_resort, new_age_bins_resort  
