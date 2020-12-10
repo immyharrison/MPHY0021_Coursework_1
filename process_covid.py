@@ -310,6 +310,7 @@ def hospital_vs_confirmed(input_data):
 
 #2.4 prepare for ploting 
 def generate_data_plot_confirmed(input_data, sex, max_age, status):
+    #create empty variables 
     graph_data = []
     graph_date = []
     colour = ''
