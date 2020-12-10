@@ -379,9 +379,9 @@ def hospital_vs_confirmed(input_data):
         ratio = no_new_cases/no_new_hosp
         list_ratio.append(ratio)
         list_date.append(date)
-        list_results = list_date + list_ratio
-        result = tuple(list_results)
-    return (results)
+        list_result = list_date + list_ratio
+        result = tuple(list_result)
+    return (result)
 
 #2.4 prepare for ploting 
 def generate_data_plot_confirmed(input_data, sex, max_age, status):
