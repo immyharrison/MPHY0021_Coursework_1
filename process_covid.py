@@ -541,9 +541,11 @@ def simple_derivative(data):
     return results
 
 def count_high_rain_low_tests_days(input_data):
-     find the rainfall for each day 
+    find the rainfall for each day 
+    # set empty variables 
     list_rain = []
     list_test = []
+    #find rainfall of each day
     for data,data_dic in covid_data.items():
                         for date,date_dic in data_dic.items(): 
                             if date[0:4].isdigit() and date[5:6].isdigit() and date[8:10]:
@@ -573,17 +575,21 @@ def count_high_rain_low_tests_days(input_data):
     # use simple_derivative to fifnd if no of test and rain increased or decreased 
     simple_derivative_rain = simple_derivative(smooth_rain)
     simple_derivative_test = simple_derivative(smooth_test)
-
+    #set variables to zero 
     increase_rain_count = 0
     decrease_test_increase_rain_count = 0
+    # for rain and test data 
     for rain_days in simple_derivative_rain:
         for test_days in simple_derivative_test:
+            
             if rain_days == None:
                 rain_days = float(0.0)
             if test_days == None:
                 test_days = float(0.0)
+            # if increase in rain
             if rain_days > 0.0:
                 increase_rain_count = increase_rain_count + 1 
+                # if decrease in test add to count 
                 if  test_days < 0: 
                     decrease_test_increase_rain_count = decrease_test_increase_rain_count + 1
     ratio = decrease_test_increase_rain_count/increase_rain_count
