@@ -515,4 +515,52 @@ def simple_derivative(data):
     return results
 
 def count_high_rain_low_tests_days(input_data):
-    raise NotImplementedError
+     find the rainfall for each day 
+    list_rain = []
+    list_test = []
+    for data,data_dic in covid_data.items():
+                        for date,date_dic in data_dic.items(): 
+                            if date[0:4].isdigit() and date[5:6].isdigit() and date[8:10]:
+                                for group, group_dic in date_dic.items():
+                                        if group == 'weather':
+                                            for status_cases,status_cases_dic in group_dic.items():
+                                                if status_cases == 'rainfall': 
+                                                    #print('rain', status_cases_dic)
+                                                    list_rain.append(status_cases_dic)
+
+    # find the no. test for each day 
+                                        if group == 'epidemiology':
+                                            for status_cases,status_cases_dic in group_dic.items():
+                                                if status_cases == 'tested': 
+                                                    for catgories_cases,catgories_cases_dic in status_cases_dic.items():
+                                                        if catgories_cases == 'new':
+                                                            for band_cases,band_cases_dic in catgories_cases_dic.items():
+                                                                if band_cases == 'all':
+                                                                    list_test.append(band_cases_dic)
+                                                                   
+
+       
+    # use compute_running_average to smooth data over one week ( 7 days)
+    smooth_rain = compute_running_average(list_rain,7)
+    smooth_test = compute_running_average(list_test,7)
+
+    # use simple_derivative to fifnd if no of test and rain increased or decreased 
+    simple_derivative_rain = simple_derivative(smooth_rain)
+    simple_derivative_test = simple_derivative(smooth_test)
+
+    increase_rain_count = 0
+    decrease_test_increase_rain_count = 0
+    for rain_days in simple_derivative_rain:
+        for test_days in simple_derivative_test:
+            if rain_days == None:
+                rain_days = float(0.0)
+            if test_days == None:
+                test_days = float(0.0)
+            if rain_days > 0.0:
+                increase_rain_count = increase_rain_count + 1 
+                if  test_days < 0: 
+                    decrease_test_increase_rain_count = decrease_test_increase_rain_count + 1
+    ratio = decrease_test_increase_rain_count/increase_rain_count
+    
+    return ratio                                                  
+    #raise NotImplementedError
