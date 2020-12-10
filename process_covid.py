@@ -466,18 +466,24 @@ def create_confirmed_plot(input_data, sex=False, max_ages=[], status=..., save=.
 
 # 2.5 the effect of the weather 
 def compute_running_average(data, window):
+    # create variables 
     no_in_input = len(data) -1
     position_in_list = 0 
     output = []
     data_no_none = []
     n = position_in_list
+    # for the number getting averaged 
     for num in data: 
+        # if first number of cannot average over window size
         if n == 0 or n == no_in_input or n <int(window/2) or n > no_in_input - int(window/2):
             n += 1 
             output.append(None)
         else:
+            # position of lower window limit
             min = n-int(window/2)
+            # position of higher window limit
             max = n+int(window/2)
+            # average over window 
             average_list = (data[min:max+1])
             # set variable to count sum 
             sum_num = 0
@@ -492,10 +498,9 @@ def compute_running_average(data, window):
                     sum_num = sum_num + t 
                     no_non_0_list += 1
             n += 1
-            print('n',n)
+            # average over number in list
             if no_non_0_list >0:    
                 average = sum_num/no_non_0_list
-                print('av',average)
                 output.append(average) 
             
               
