@@ -287,14 +287,114 @@ def hospital_vs_confirmed(input_data):
         result = tuple(list_results)
     return (results)
 
+#2.4 prepare for ploting 
 def generate_data_plot_confirmed(input_data, sex, max_age, status):
-    """
-    At most one of sex or max_age allowed at a time.
-    sex: only 'male' or 'female'
-    max_age: sums all bins below this value, including the one it is in.
-    status: 'new' or 'total' (default: 'total')
-    """
-    raise NotImplementedError
+    graph_data = []
+    graph_date = []
+    colour = ''
+    # error message if no input for sex or max age
+    if  sex == ''  and (max_age == '' or max_age == False):  
+        error_message = ('Error: need input for either sex or max_age')
+    
+    #error if input for both age and max age
+    if sex != True or sex != False or sex == '':
+        error_message = 'Error in input value for sex'
+    
+    elif sex == False and  max_age == False :
+        error_message = ('Error: can only have input  from at most one of sex or max_age allowed at a time ')
+    # if only input female
+    elif sex == 'female' and max_age == '':
+        colour = 'indigo'
+        # set status to defal to total if empty 
+        if status == '':
+            status = 'total'
+        # find the number of confirmed cases for female
+        for data,data_dic in covid_data.items():
+            for date,date_dic in data_dic.items(): 
+                if date[0:4].isdigit() and date[5:6].isdigit() and date[8:10]:
+                    graph_date.append(date)
+                    for group, group_dic in date_dic.items():
+                            if group == 'epidemiology':
+                                for status_cases,status_cases_dic in group_dic.items():
+                                    if status_cases == 'confirmed': 
+                                        for catgories_cases,catgories_cases_dic in status_cases_dic.items():
+                                            if catgories_cases == status:
+                                                for band_cases,band_cases_dic in catgories_cases_dic.items():
+                                                    if band_cases == 'female':
+                                                       graph_data.append(band_cases_dic)
+ 
+    # find the number of confirmed cases for male
+    elif sex == 'male' and max_age == '' or max_age == False:
+        colour = 'green'
+         # set status to defal to total if empty 
+        if status == '':
+            status = 'total'
+        for data,data_dic in covid_data.items():
+            for date,date_dic in data_dic.items(): 
+                if date[0:4].isdigit() and date[5:6].isdigit() and date[8:10]:
+                    graph_date.append(date)
+                    for group, group_dic in date_dic.items():
+                        if group == 'epidemiology':
+                            for status_cases,status_cases_dic in group_dic.items():
+                                if status_cases == 'confirmed': 
+                                    for catgories_cases,catgories_cases_dic in status_cases_dic.items():
+                                        if catgories_cases == status:
+                                            for band_cases,band_cases_dic in catgories_cases_dic.items():
+                                                if band_cases == 'male':
+                                                    graph_data.append(band_cases_dic)
+                                                           
+    # find for max age 
+    elif max_age != '' and sex == '' or sex == False:
+         # set status to defal to total if empty 
+        if status == '':
+            status = 'total'
+        # find age bins 
+        hosp_age_bin = (covid_data['metadata']['age_binning']['hospitalizations'])
+        counter = 0
+        # for each age in max age 
+        if max_age <= 25 :
+            colour = 'green'
+        elif max_age <= 50 :
+            colour = 'orange'
+        elif max_age <= 75:
+            colour = 'indigo'
+        else:
+            colour = 'pink'
+            # check against each age bin
+        for age_bin in hosp_age_bin:
+                counter = counter + 1 
+                split = age_bin.split('-')
+                # find upper and lower limit of age bin
+                limit_upper_age_bin = (age_bin.partition('-')[2])
+                limit_lower_age_bin = (age_bin.partition('-')[0])
+                # turn limit to integer number
+                if  limit_lower_age_bin != '':
+                    limit_lower_age_bin = int(limit_lower_age_bin)
+                    if limit_upper_age_bin != '' :
+                        limit_upper_age_bin= int(limit_upper_age_bin)
+                #upper limit not defined so define as 100 max age 
+                    elif limit_upper_age_bin == '':
+                        limit_upper_age_bin = int(100)
+                # if age within age bin 
+                if max_age <= limit_upper_age_bin and max_age >= limit_lower_age_bin:
+                    # find age confirm cases for each day 
+                    for data,data_dic in covid_data.items():
+                        for date,date_dic in data_dic.items(): 
+                            if date[0:4].isdigit() and date[5:6].isdigit() and date[8:10]:
+                                graph_date.append(date)
+                                for group, group_dic in date_dic.items():
+                                        if group == 'epidemiology':
+                                            for status_cases,status_cases_dic in group_dic.items():
+                                                if status_cases == 'confirmed': 
+                                                    for catgories_cases,catgories_cases_dic in status_cases_dic.items():
+                                                        if catgories_cases == status:
+                                                            for band_cases,band_cases_dic in catgories_cases_dic.items():
+                                                                if band_cases == 'age':
+                                                                    age_below = band_cases_dic[0:counter]
+                                                                    sum_age_below_max = sum(age_below)
+                                                                    graph_data.append(sum_age_below_max)
+   
+    return graph_data, graph_date, colour, error_message 
 
 def create_confirmed_plot(input_data, sex=False, max_ages=[], status=..., save=...):
     # FIXME check that only sex or age is specified.
